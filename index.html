@@ -139,7 +139,7 @@
     }
     
     function generatePrediction() {
-      const predictions = ['SMALL', 'BIG', 'GREEN', 'RED'];
+      const predictions = ['SMALL', 'SMALL', 'BIG', 'BIG', 'SMALL', 'BIG', 'SMALL', 'SMALL', 'SMALL', 'BIG', 'BIG', 'BIG', 'BIG', 'SMALL', 'GREEN', 'BIG', 'GREEN', 'RED'];
       currentPrediction = predictions[Math.floor(Math.random() * predictions.length)];
       document.getElementById('prediction').textContent = currentPrediction;
     }
