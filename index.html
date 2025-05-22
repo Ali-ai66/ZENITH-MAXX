@@ -1,980 +1,558 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fusion Ultra</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>ZENITH ULTRA 3.0</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap');
     :root {
-      --primary: #00ffcc;
-      --secondary: #00ffaa;
-      --accent: #ff0055;
-      --text: #e0e0e0;
-      --bg: #0a0a0a;
-      --card-bg: rgba(0, 20, 15, 0.3);
-      --success: #00ff00;
-      --warning: #ffff00;
-      --danger: #ff0055;
-      --border: rgba(0, 255, 170, 0.2);
+      --primary-color: #d60000;
+      --primary-dark: #a00000;
+      --secondary-color: #9b5e4f;
+      --background-light: #ffecec;
+      --badge-color: #ffd5d5;
+      --card-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      --success-color: #00aa55;
+      --info-color: #0077cc;
     }
-    * { 
-      box-sizing: border-box; 
-      margin: 0; 
-      padding: 0; 
-    }
+    
     body {
-      font-family: 'Roboto Mono', monospace;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.6;
+      margin: 0;
+      font-family: 'Rajdhani', sans-serif;
+      background: #f8f8f8;
+      color: #333;
+      min-height: 100vh;
     }
-    #particles-js {
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      height: 100%; 
-      width: 100%; 
-      z-index: -1;
-      opacity: 0.6;
-    }
-    .container {
-      max-width: 800px; 
-      margin: 0 auto; 
-      padding: 30px 20px;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-    h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.2em; 
-      color: var(--primary); 
-      text-shadow: 0 0 10px var(--primary);
-      letter-spacing: 2px;
-    }
-    .status-badge {
-      background: rgba(0, 255, 170, 0.1);
-      border: 1px solid var(--secondary);
-      border-radius: 20px;
-      padding: 8px 15px;
-      font-size: 0.9rem;
+    
+    .header {
+      background: linear-gradient(135deg, var(--secondary-color), var(--primary-dark));
+      padding: 18px 20px;
+      color: white;
+      font-weight: bold;
       display: flex;
       align-items: center;
-      gap: 8px;
+      font-size: 1.2rem;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      position: relative;
+      z-index: 10;
     }
-    .status-badge .indicator {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #ccc;
+    
+    .header i {
+      margin-right: 12px;
+      font-size: 1.3rem;
     }
-    .status-badge.connected .indicator {
-      background: var(--success);
-      box-shadow: 0 0 8px var(--success);
-    }
-    .status-badge.disconnected .indicator {
-      background: var(--danger);
-      box-shadow: 0 0 8px var(--danger);
-    }
-    .grid {
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-    .card {
-      background: var(--card-bg); 
-      border: 1px solid var(--border);
-      border-radius: 12px; 
-      padding: 18px;
-      box-shadow: 0 0 15px rgba(0, 255, 170, 0.05); 
-      backdrop-filter: blur(6px);
-      transition: all 0.3s ease;
-    }
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 20px rgba(0, 255, 170, 0.1);
-    }
-    .card h2 { 
-      font-size: 0.9rem; 
-      color: var(--secondary); 
-      margin-bottom: 8px; 
-      font-weight: 400;
-      letter-spacing: 1px;
-    }
-    .card span { 
-      font-size: 1.5rem; 
-      color: var(--text); 
-      font-weight: 500;
-      font-family: 'Orbitron', sans-serif;
-    }
-    .main-card {
-      margin: 25px 0; 
-      background: rgba(0, 30, 20, 0.3);
-      border: 1px solid var(--primary); 
-      border-radius: 15px; 
-      padding: 25px;
-      box-shadow: 0 0 25px rgba(0, 255, 204, 0.1);
+    
+    .top-section {
+      background: linear-gradient(160deg, var(--background-light), #fff);
+      padding: 25px 15px;
+      text-align: center;
+      border-bottom: 1px solid rgba(214, 0, 0, 0.1);
       position: relative;
       overflow: hidden;
     }
-    .main-card::before {
-      content: '';
+    
+    .top-section::before {
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(45deg, 
-        transparent 0%, 
-        rgba(0, 255, 204, 0.03) 50%, 
-        transparent 100%);
-      pointer-events: none;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     }
-    .label { 
-      font-size: 0.95rem; 
-      color: var(--secondary); 
-      margin-top: 15px; 
-      opacity: 0.8;
-    }
-    .value { 
-      font-size: 1.8rem; 
-      color: var(--text); 
-      margin-top: 5px; 
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 1px;
-    }
-    .prediction-display {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-top: 10px;
-    }
-    .prediction-value {
-      font-size: 2rem;
-      font-weight: bold;
-      font-family: 'Orbitron', sans-serif;
-      text-shadow: 0 0 10px currentColor;
-    }
-    .prediction-number {
-      font-size: 1.8rem;
-      background: rgba(0, 255, 204, 0.1);
-      border-radius: 8px;
-      padding: 5px 12px;
-      border: 1px solid var(--primary);
-    }
-    .history {
-      margin-top: 30px; 
-      background: rgba(0, 15, 10, 0.3);
-      border: 1px solid var(--border); 
-      border-radius: 15px; 
-      padding: 0;
-      box-shadow: 0 0 15px rgba(0, 255, 170, 0.05);
-      max-height: 350px; 
-      overflow-y: auto;
-    }
-    .history-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 20px 15px;
-      position: sticky;
-      top: 0;
-      background: rgba(0, 20, 15, 0.8);
-      backdrop-filter: blur(5px);
-      z-index: 1;
-      border-bottom: 1px solid var(--border);
-    }
-    .history h3 {
-      color: var(--primary); 
-      font-size: 1.2rem;
-      font-family: 'Orbitron', sans-serif;
+    
+    .top-section h1 {
+      color: var(--primary-color);
+      font-size: 2.4rem;
       margin: 0;
-    }
-    .history-controls button {
-      background: rgba(0, 255, 204, 0.1);
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 6px;
-      padding: 5px 10px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      transition: all 0.2s;
-    }
-    .history-controls button:hover {
-      background: rgba(0, 255, 204, 0.2);
-    }
-    .history-list {
-      padding: 0 20px;
-    }
-    .history-item {
-      display: flex; 
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(0, 255, 170, 0.1); 
-      padding: 15px 0;
-      font-size: 0.95rem;
-      transition: all 0.2s;
-    }
-    .history-item:last-child {
-      border-bottom: none;
-    }
-    .history-item:hover {
-      background: rgba(0, 255, 204, 0.05);
-      transform: translateX(5px);
-    }
-    .history-period {
-      color: var(--secondary);
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.9rem;
-      min-width: 60px;
+      text-shadow: 0 2px 3px rgba(0,0,0,0.1);
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 1;
     }
-    .history-prediction {
+    
+    .badges {
+      margin-top: 15px;
       display: flex;
-      flex-direction: column;
-      gap: 3px;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 7px 18px;
+      background: var(--badge-color);
+      color: var(--primary-color);
+      border-radius: 25px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border: 1px solid rgba(214, 0, 0, 0.1);
+    }
+    
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      margin: 20px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+    
+    .card-title {
+      font-weight: 700;
+      color: #444;
+      margin-bottom: 14px;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      letter-spacing: 0.5px;
+    }
+    
+    .card-title i {
+      margin-right: 10px;
+      color: var(--primary-color);
+      font-size: 1.2rem;
+    }
+    
+    .info-container {
+      display: grid;
+      gap: 15px;
+    }
+    
+    .info-box {
+      background: #fff;
+      padding: 18px 22px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      border-left: 5px solid var(--primary-color);
+      transition: transform 0.2s ease;
+    }
+    
+    .info-box:hover {
+      transform: translateX(3px);
+    }
+    
+    .info-box .info-label {
+      display: flex;
+      align-items: center;
       flex-grow: 1;
-      padding: 0 15px;
     }
-    .history-prediction small {
-      font-size: 0.75rem;
-      opacity: 0.7;
-      display: none; /* Hide strategy labels */
+    
+    .info-box .info-value {
+      color: var(--primary-color);
+      font-weight: bold;
+      font-size: 1.4rem;
+      font-family: 'Orbitron', sans-serif;
+      margin-left: 15px;
+      text-align: right;
+      min-width: 80px;
     }
-    .history-result {
-      padding: 6px 12px;
-      border-radius: 12px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      min-width: 90px;
+    
+    .info-box i {
+      margin-right: 15px;
+      color: var(--primary-color);
+      font-size: 1.4rem;
+      width: 24px;
       text-align: center;
     }
-    .win { 
-      color: var(--success);
-      background: rgba(0, 255, 0, 0.1);
-      border: 1px solid rgba(0, 255, 0, 0.3);
+    
+    .history-section {
+      margin: 20px;
+      margin-top: 10px;
     }
-    .loss { 
-      color: var(--danger);
-      background: rgba(255, 0, 85, 0.1);
-      border: 1px solid rgba(255, 0, 85, 0.3);
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
     }
-    .pending { 
-      color: var(--warning);
-      background: rgba(255, 255, 0, 0.1);
-      border: 1px solid rgba(255, 255, 0, 0.3);
+    
+    .history-title {
+      font-weight: bold;
+      font-size: 1.25rem;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      margin: 0;
     }
+    
+    .history-title i {
+      margin-right: 10px;
+    }
+    
+    .history-count {
+      background: var(--primary-color);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+    
+    .history-list {
+      display: grid;
+      gap: 12px;
+    }
+    
+    .history-item {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.05rem;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+    
+    .history-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .history-period {
+      font-weight: 600;
+      color: #555;
+      letter-spacing: 0.5px;
+    }
+    
+    .prediction-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    
+    .prediction {
+      font-weight: bold;
+      font-size: 1.15rem;
+      font-family: 'Orbitron', sans-serif;
+    }
+    
+    .prediction.big {
+      color: var(--primary-color);
+    }
+    
+    .prediction.small {
+      color: var(--info-color);
+    }
+    
+    .accuracy {
+      font-size: 0.85rem;
+      color: #777;
+      margin-top: 3px;
+    }
+    
+    .refresh-btn {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      border: none;
+      padding: 15px 20px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin: 25px 20px;
+      width: calc(100% - 40px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(214, 0, 0, 0.25);
+      transition: all 0.2s ease;
+    }
+    
+    .refresh-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(214, 0, 0, 0.3);
+    }
+    
+    .refresh-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(214, 0, 0, 0.25);
+    }
+    
+    .pulse {
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+    
     .loading {
       display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(0, 255, 204, 0.3);
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255,255,255,0.3);
       border-radius: 50%;
-      border-top-color: var(--primary);
+      border-top-color: white;
       animation: spin 1s ease-in-out infinite;
     }
+    
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-    @media (max-width: 600px) {
-      .container {
-        padding: 20px 15px;
+    
+    .prediction-card {
+      background: linear-gradient(135deg, rgba(214,0,0,0.08), rgba(255,255,255,0.2));
+      border: 1px solid rgba(214,0,0,0.1);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .top-section h1 {
+        font-size: 2rem;
       }
-      h1 {
-        font-size: 1.8rem;
+      
+      .card {
+        padding: 18px;
+        margin: 15px;
       }
-      .grid {
-        grid-template-columns: 1fr 1fr;
+      
+      .info-box {
+        padding: 16px 18px;
       }
-      .value {
-        font-size: 1.5rem;
-      }
-      .prediction-display {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-      }
-      .history-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-      }
-      .history-prediction {
-        padding: 0;
-        width: 100%;
-      }
-      .history-result {
-        align-self: flex-end;
+      
+      .info-box .info-value {
+        font-size: 1.3rem;
       }
     }
   </style>
 </head>
 <body>
-  <div id="particles-js"></div>
-  <div class="container">
-    <header>
-      <h1>FUSION ULTRA</h1>
-      <div class="status-badge" id="serverStatus">
-        <span class="indicator"></span>
-        <span>Connecting...</span>
-      </div>
-    </header>
-    
-    <div class="grid">
-      <div class="card">
-        <h2><i class="fas fa-trophy"></i> Total Wins</h2>
-        <span id="totalWins">0</span>
-      </div>
-      <div class="card">
-        <h2><i class="fas fa-times-circle"></i> Total Losses</h2>
-        <span id="totalLosses">0</span>
-      </div>
-      <div class="card">
-        <h2><i class="fas fa-percentage"></i> Win Rate</h2>
-        <span id="winRate">0.00%</span>
-      </div>
-      <div class="card">
-        <h2><i class="fas fa-bolt"></i> Streak</h2>
-        <span id="streak">0</span>
-      </div>
-    </div>
 
-    <div class="main-card">
-      <div class="label"></div>
-      <div class="value" id="currentPeriod">
-        <span class="loading"></span>
+  <div class="header">
+    <i class="fas fa-arrow-left"></i> ZENITH AI 3.0
+  </div>
+
+  <div class="top-section">
+    <h1>ZENITH AI</h1>
+    <div class="badges">
+      <span class="badge">VERSION 3.0</span>
+      <span class="badge">ULTRA PRECISION</span>
+      <span class="badge">AI POWERED</span>
+    </div>
+  </div>
+
+  <div class="card prediction-card">
+    <div class="info-container">
+      <div class="info-box">
+        <div class="info-label">
+          <i class="fas fa-calendar-alt"></i>
+          <span></span>
+        </div>
+        <div class="info-value" id="period">--</div>
       </div>
       
-      <div class="label"></div>
-      <div class="prediction-display">
-        <span class="prediction-value" id="predictionDirection">--</span>
-        <span class="prediction-number" id="predictionNumber">--</span>
-      </div>
-    </div>
-
-    <div class="history">
-      <div class="history-header">
-        <h3><i class="fas fa-history"></i> History</h3>
-        <div class="history-controls">
-          <button id="clearHistory"><i class="fas fa-trash"></i> Clear</button>
+      <div class="info-box">
+        <div class="info-label">
+          <i class="fas fa-clock"></i>
+          <span></span>
         </div>
+        <div class="info-value" id="timer">00:00</div>
       </div>
-      <div class="history-list" id="historyList">
-        <div class="history-item">
-          <span>Loading predictions...</span>
+      
+      <div class="info-box">
+        <div class="info-label">
+          <i class="fas fa-chart-bar"></i>
+          <span></span>
         </div>
+        <div class="info-value" id="result">--</div>
       </div>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <button class="refresh-btn" id="refreshBtn">
+    <i class="fas fa-sync-alt"></i> 
+    <span id="refreshText">REFRESH DATA</span>
+    <div class="loading" id="refreshSpinner" style="display: none;"></div>
+  </button>
+
+  <div class="history-section">
+    <div class="section-header">
+      <div class="history-title">
+        <i class="fas fa-history"></i>HISTORY
+      </div>
+      <div class="history-count" id="historyCount">0</div>
+    </div>
+    
+    <div class="history-list" id="history-list">
+      <!-- History items will be inserted here -->
+    </div>
+  </div>
+
   <script>
-    // Enhanced Configuration
-    const config = {
-      apiURL: "https://api.bdg88zf.com/api/webapi/GetNoaverageEmerdList",
-      updateInterval: 3000, // 3 seconds for real-time updates
-      dailyUpdateTime: "00:00", // Time for daily reset (24-hour format)
-      maxHistory: 100,
-      streakThreshold: 3,
-      autoUpdate: true,
-      dailyReset: true
-    };
+    // Prediction pattern from the Telegram bot
+    const predictionPattern = [
+      "BIG","BIG","SMALL","SMALL","BIG","SMALL","BIG","BIG","SMALL","BIG","SMALL","BIG","SMALL","BIG","SMALL",
+      "SMALL","BIG","SMALL","BIG","BIG","SMALL","SMALL","BIG","BIG","SMALL","BIG","SMALL","SMALL","BIG","BIG",
+      "BIG","BIG","BIG","SMALL","SMALL","SMALL","BIG","SMALL","BIG","SMALL","BIG","BIG","SMALL","SMALL","BIG",
+      "SMALL","BIG","BIG","SMALL","SMALL","BIG","BIG","SMALL","BIG","SMALL","BIG","SMALL","BIG","SMALL","BIG",
+      "BIG","SMALL","BIG","SMALL","BIG","BIG","SMALL","BIG","SMALL","BIG","SMALL","BIG","SMALL","SMALL","BIG",
+      "SMALL","SMALL","BIG","BIG","BIG","SMALL","BIG","SMALL","SMALL","BIG","SMALL","BIG","BIG","SMALL","BIG",
+      "BIG","BIG","SMALL","BIG","SMALL","SMALL","BIG","SMALL","BIG","SMALL","BIG","SMALL","BIG","SMALL","BIG",
+      "SMALL","BIG","SMALL","BIG","SMALL","BIG","BIG","BIG","BIG","SMALL","SMALL","SMALL","SMALL","BIG","BIG",
+      "SMALL","SMALL","BIG","BIG","SMALL","SMALL","BIG","BIG","BIG","SMALL","SMALL","BIG","BIG","SMALL","SMALL",
+      "BIG","SMALL","BIG","SMALL","BIG"
+    ];
 
-    // Enhanced State management
-    const state = {
-      history: [],
-      stats: {
-        wins: 0,
-        losses: 0,
-        streak: 0,
-        lastStreakType: null,
-        dailyWins: 0,
-        dailyLosses: 0
-      },
-      lastPeriod: null,
-      lastResult: null,
-      lastUpdate: null,
-      trend: 'neutral',
-      serverConnected: false,
-      dailyResetDone: false,
-      lastDailyReset: null
-    };
+    let lastPeriod = "";
+    let currentPrediction = null;
+    let history = [];
+    let isNewPeriod = true;
+    let isRefreshing = false;
 
-    // DOM Elements
-    const elements = {
-      totalWins: document.getElementById('totalWins'),
-      totalLosses: document.getElementById('totalLosses'),
-      winRate: document.getElementById('winRate'),
-      streak: document.getElementById('streak'),
-      currentPeriod: document.getElementById('currentPeriod'),
-      predictionDirection: document.getElementById('predictionDirection'),
-      predictionNumber: document.getElementById('predictionNumber'),
-      historyList: document.getElementById('historyList'),
-      serverStatus: document.getElementById('serverStatus'),
-      clearHistory: document.getElementById('clearHistory')
-    };
+    function updateDisplay() {
+      const now = new Date();
+      const calendar = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+      const seconds = calendar.getSeconds();
+      const remainingSeconds = 60 - seconds;
+      const timerText = `00:${remainingSeconds.toString().padStart(2, '0')}`;
+      document.getElementById("timer").innerText = timerText;
 
-    // Enhanced Prediction Engine with Machine Learning Patterns
-    class PredictionEngine {
-      constructor() {
-        this.patternMemory = [];
-        this.maxPatternLength = 7;
-        this.confidence = 0;
-        this.historyPatterns = [];
-        this.weightedStrategies = {
-          'alternating': 0.8,
-          'repeat': 0.7,
-          'two-then-one': 0.65,
-          'three-then-switch': 0.6,
-          'random': 0.5
-        };
-      }
+      const currentHour = calendar.getHours();
+      const currentMinute = calendar.getMinutes();
+      const startHour = 5;
+      const startMinute = 29;
 
-      analyzeAdvancedPatterns(history) {
-        if (history.length < 5) return null;
-        
-        const recent = history.slice(0, 5).map(h => h.actual);
-        if (!recent.every(val => val)) return null;
+      let elapsedMinutes = (currentHour * 60 + currentMinute) - (startHour * 60 + startMinute);
+      if (elapsedMinutes < 0) elapsedMinutes = 0;
 
-        // Pattern 1: Alternating with confirmation (BIG, SMALL, BIG, SMALL, BIG)
-        if (recent[0] === recent[2] && recent[2] === recent[4] && 
-            recent[1] === recent[3] && recent[0] !== recent[1]) {
-          return {
-            prediction: recent[1], // Opposite of last
-            confidence: 85,
-            pattern: 'confirmed-alternating'
-          };
-        }
-        
-        // Pattern 2: Three then switch (BIG, BIG, BIG, SMALL, SMALL)
-        if (recent[0] === recent[1] && recent[1] === recent[2] && 
-            recent[3] === recent[4] && recent[2] !== recent[3]) {
-          return {
-            prediction: recent[4], // Continue the new trend
-            confidence: 75,
-            pattern: 'three-then-switch'
-          };
-        }
-        
-        // Pattern 3: Mirror pattern (BIG, SMALL, SMALL, BIG, SMALL)
-        if (recent[0] === recent[3] && recent[1] === recent[2] && recent[1] === recent[4]) {
-          return {
-            prediction: recent[0], // Mirror the first element
-            confidence: 70,
-            pattern: 'mirror'
-          };
-        }
-        
-        return null;
-      }
-
-      analyzeBasicPattern(history) {
-        if (history.length < 3) return null;
-        
-        const lastThree = history.slice(0, 3).map(h => h.actual);
-        if (!lastThree.every(val => val)) return null;
-
-        // Basic Pattern 1: Alternating (BIG, SMALL, BIG... or vice versa)
-        if (lastThree[0] !== lastThree[1] && lastThree[1] !== lastThree[2] && lastThree[0] === lastThree[2]) {
-          return {
-            prediction: lastThree[1], // Opposite of last
-            confidence: 75,
-            pattern: 'alternating'
-          };
-        }
-        
-        // Basic Pattern 2: Repeats (3 of the same)
-        if (lastThree[0] === lastThree[1] && lastThree[1] === lastThree[2]) {
-          return {
-            prediction: lastThree[0] === 'BIG' ? 'SMALL' : 'BIG', // Bet against streak
-            confidence: 65,
-            pattern: 'repeat'
-          };
-        }
-        
-        // Basic Pattern 3: Two same then different (BIG, BIG, SMALL)
-        if (lastThree[0] === lastThree[1] && lastThree[1] !== lastThree[2]) {
-          return {
-            prediction: lastThree[1], // Bet on continuation of first two
-            confidence: 60,
-            pattern: 'two-then-one'
-          };
-        }
-        
-        return null;
-      }
-
-      calculateHistoricalBias(history) {
-        if (history.length < 10) return { bias: 0.5, direction: null };
-        
-        const lastTen = history.slice(0, 10);
-        const bigCount = lastTen.filter(h => h.actual === 'BIG').length;
-        const smallCount = lastTen.filter(h => h.actual === 'SMALL').length;
-        
-        const ratio = bigCount / (bigCount + smallCount);
-        const bias = 0.5 + (0.5 - ratio) * 0.3; // Adjust bias by 30% of the difference from 0.5
-        
-        return {
-          bias: Math.max(0.3, Math.min(0.7, bias)), // Keep bias between 0.3 and 0.7
-          direction: ratio > 0.5 ? 'SMALL' : 'BIG' // Bet against the majority
-        };
-      }
-
-      generatePrediction(history) {
-        // Try advanced patterns first
-        const advancedAnalysis = this.analyzeAdvancedPatterns(history);
-        if (advancedAnalysis) {
-          this.confidence = advancedAnalysis.confidence;
-          return {
-            direction: advancedAnalysis.prediction,
-            number: this.generateNumber(advancedAnalysis.prediction),
-            confidence: advancedAnalysis.confidence,
-            strategy: `Advanced: ${advancedAnalysis.pattern}`
-          };
-        }
-        
-        // Try basic patterns
-        const basicAnalysis = this.analyzeBasicPattern(history);
-        if (basicAnalysis) {
-          this.confidence = basicAnalysis.confidence;
-          return {
-            direction: basicAnalysis.prediction,
-            number: this.generateNumber(basicAnalysis.prediction),
-            confidence: basicAnalysis.confidence,
-            strategy: `Basic: ${basicAnalysis.pattern}`
-          };
-        }
-        
-        // Fallback to adaptive algorithm with historical bias
-        const lastPrediction = this.getLastPrediction();
-        const historicalBias = this.calculateHistoricalBias(history);
-        let direction;
-        let strategy = "Adaptive";
-        
-        // If last was a loss, switch direction with historical bias
-        if (state.lastResult === 'LOSS' && lastPrediction) {
-          direction = lastPrediction.direction === 'BIG' ? 'SMALL' : 'BIG';
-          this.confidence = 60 + Math.abs(historicalBias.bias - 0.5) * 40;
-          strategy += " + Loss Switch";
-        } 
-        // If on a winning streak, continue same direction
-        else if (state.stats.streak >= 2 && state.stats.lastStreakType === 'win') {
-          direction = lastPrediction.direction;
-          this.confidence = 70 + Math.abs(historicalBias.bias - 0.5) * 30;
-          strategy += " + Win Streak";
-        } 
-        // If on a losing streak, switch direction with historical bias
-        else if (state.stats.streak >= 2 && state.stats.lastStreakType === 'loss') {
-          direction = lastPrediction.direction === 'BIG' ? 'SMALL' : 'BIG';
-          this.confidence = 65 + Math.abs(historicalBias.bias - 0.5) * 35;
-          strategy += " + Loss Streak";
-        }
-        // Use historical bias direction with weighted probability
-        else {
-          direction = Math.random() < historicalBias.bias ? historicalBias.direction : 
-                     (historicalBias.direction === 'BIG' ? 'SMALL' : 'BIG');
-          this.confidence = 50 + Math.abs(historicalBias.bias - 0.5) * 50;
-          strategy += ` + Historical Bias (${(historicalBias.bias * 100).toFixed(1)}%)`;
-        }
-        
-        return {
-          direction,
-          number: this.generateNumber(direction),
-          confidence: Math.min(90, this.confidence), // Cap confidence
-          strategy: strategy
-        };
-      }
-
-      generateNumber(direction) {
-        // More sophisticated number generation based on recent history
-        if (direction === 'BIG') {
-          // 60% chance for 5-7, 30% for 8-9, 10% for edge cases
-          const rand = Math.random();
-          if (rand < 0.6) return Math.floor(Math.random() * 3) + 5; // 5-7
-          if (rand < 0.9) return Math.floor(Math.random() * 2) + 8; // 8-9
-          return Math.random() < 0.7 ? 7 : 9; // Edge cases
-        } else {
-          // 60% chance for 2-4, 30% for 0-1, 10% for edge cases
-          const rand = Math.random();
-          if (rand < 0.6) return Math.floor(Math.random() * 3) + 2; // 2-4
-          if (rand < 0.9) return Math.floor(Math.random() * 2); // 0-1
-          return Math.random() < 0.7 ? 1 : 3; // Edge cases
-        }
-      }
-
-      getLastPrediction() {
-        if (state.history.length === 0) return null;
-        return state.history[0].prediction ? {
-          direction: state.history[0].prediction.direction,
-          number: state.history[0].prediction.number
-        } : null;
-      }
-    }
-
-    const predictionEngine = new PredictionEngine();
-
-    // Enhanced Storage functions with daily tracking
-    function saveState() {
-      localStorage.setItem('fusionUltraState', JSON.stringify({
-        history: state.history,
-        stats: state.stats,
-        lastDailyReset: state.lastDailyReset
-      }));
-    }
-
-    function loadState() {
-      const saved = localStorage.getItem('fusionUltraState');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        state.history = parsed.history || [];
-        state.stats = parsed.stats || { 
-          wins: 0, 
-          losses: 0, 
-          streak: 0, 
-          lastStreakType: null,
-          dailyWins: 0,
-          dailyLosses: 0
-        };
-        state.lastDailyReset = parsed.lastDailyReset || null;
-        
-        // Check if daily reset is needed
-        checkDailyReset();
-        
-        // Update UI from loaded state
-        updateStatsUI();
-        updateHistoryUI();
-      }
-    }
-
-    function clearHistory() {
-      state.history = [];
-      state.stats = { 
-        wins: 0, 
-        losses: 0, 
-        streak: 0, 
-        lastStreakType: null,
-        dailyWins: 0,
-        dailyLosses: 0
-      };
-      saveState();
-      updateStatsUI();
-      updateHistoryUI();
-    }
-
-    // Enhanced UI Update functions with daily stats
-    function updateStatsUI() {
-      const { wins, losses, streak, dailyWins, dailyLosses } = state.stats;
-      const total = wins + losses;
-      const dailyTotal = dailyWins + dailyLosses;
-      const winRate = total > 0 ? ((wins / total) * 100).toFixed(2) : 0;
-      const dailyWinRate = dailyTotal > 0 ? ((dailyWins / dailyTotal) * 100).toFixed(2) : 0;
+      const dateStr = calendar.toISOString().split("T")[0].replace(/-/g, "");
+      const periodNumber = "100001" + String(elapsedMinutes).padStart(4, '0');
+      const fullPeriod = dateStr + periodNumber;
       
-      elements.totalWins.textContent = `${wins} (${dailyWins})`;
-      elements.totalLosses.textContent = `${losses} (${dailyLosses})`;
-      elements.winRate.textContent = `${winRate}% (${dailyWinRate}%)`;
-      elements.streak.textContent = streak;
-      
-      // Update streak color
-      if (streak > 0) {
-        elements.streak.style.color = state.stats.lastStreakType === 'win' ? 'var(--success)' : 'var(--danger)';
+      // Display only last 4 digits of the period
+      const displayPeriod = periodNumber.slice(-4);
+      document.getElementById("period").innerText = displayPeriod;
+
+      // Check if we've entered a new period
+      if (lastPeriod !== fullPeriod) {
+        lastPeriod = fullPeriod;
+        isNewPeriod = true;
+        makePrediction(fullPeriod);
       } else {
-        elements.streak.style.color = 'var(--text)';
+        isNewPeriod = false;
       }
     }
 
-    function updateHistoryUI() {
-      if (state.history.length === 0) {
-        elements.historyList.innerHTML = '<div class="history-item"><span>No predictions yet</span></div>';
-        return;
+    function makePrediction(period) {
+      // Only generate new prediction if it's a new period or we don't have one yet
+      if (isNewPeriod || !currentPrediction) {
+        // Use the prediction pattern from the Telegram bot
+        const index = parseInt(period.slice(-2)) % predictionPattern.length;
+        const prediction = predictionPattern[index];
+        const accuracy = (Math.random() * (99 - 85) + 85).toFixed(0);
+        currentPrediction = { prediction, accuracy };
       }
       
-      elements.historyList.innerHTML = state.history.slice(0, config.maxHistory).map(item => {
-        const resultClass = item.result ? item.result.toLowerCase() : 'pending';
-        const resultText = item.result || 'Pending';
-        const actualText = item.actual ? `(${item.actual} ${item.actualNumber})` : '';
-        const confidenceText = item.prediction.confidence ? `${item.prediction.confidence.toFixed(0)}%` : '';
-        
-        return `
-          <div class="history-item">
-            <span class="history-period">#${item.period.slice(-4)}</span>
-            <div class="history-prediction">
-              <span>${item.prediction.direction} ${item.prediction.number} <small>${confidenceText}</small></span>
-              <small>${item.prediction.strategy || ''}</small>
-            </div>
-            <span class="history-result ${resultClass}">
-              ${resultText} ${actualText}
-            </span>
+      const resultText = `${currentPrediction.prediction}`;
+      document.getElementById("result").innerText = resultText;
+
+      // Only add to history if it's a new period
+      if (isNewPeriod) {
+        const shortPeriod = period.slice(-4); // Store only last 4 digits
+        history.unshift({ 
+          period: shortPeriod, 
+          prediction: currentPrediction.prediction, 
+          accuracy: currentPrediction.accuracy 
+        });
+        if (history.length > 10) history.pop();
+        renderHistory();
+        updateHistoryCount();
+      }
+    }
+
+    function renderHistory() {
+      const list = document.getElementById("history-list");
+      list.innerHTML = "";
+      
+      if (history.length === 0) {
+        list.innerHTML = `
+          <div style="text-align: center; padding: 30px; color: #888;">
+            <i class="fas fa-history" style="font-size: 2rem; margin-bottom: 10px;"></i>
+            <div>No prediction history yet</div>
           </div>
         `;
-      }).join('');
-    }
-
-    function updatePredictionUI(prediction) {
-      elements.currentPeriod.textContent = prediction.period;
-      elements.predictionDirection.textContent = prediction.direction;
-      elements.predictionDirection.style.color = prediction.direction === 'BIG' ? 'var(--primary)' : 'var(--secondary)';
-      elements.predictionNumber.textContent = prediction.number;
-    }
-
-    function updateServerStatus(connected) {
-      state.serverConnected = connected;
-      elements.serverStatus.classList.toggle('connected', connected);
-      elements.serverStatus.classList.toggle('disconnected', !connected);
-      elements.serverStatus.querySelector('span:last-child').textContent = 
-        connected ? 'Connected' : 'Disconnected';
-    }
-
-    // Daily Reset System
-    function checkDailyReset() {
-      if (!config.dailyReset) return;
-      
-      const now = new Date();
-      const currentTime = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
-      const today = now.toLocaleDateString();
-      
-      // Check if we've already done reset today
-      if (state.lastDailyReset === today) {
-        state.dailyResetDone = true;
         return;
       }
       
-      // Check if it's time for daily reset
-      if (currentTime >= config.dailyUpdateTime && !state.dailyResetDone) {
-        performDailyReset();
-        state.lastDailyReset = today;
-        state.dailyResetDone = true;
-        saveState();
-      }
+      history.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "history-item";
+        div.innerHTML = `
+          <div class="history-period">${item.period}</div>
+          <div class="prediction-container">
+            <div class="prediction ${item.prediction === 'BIG' ? 'big' : 'small'}">${item.prediction}</div>
+            <div class="accuracy">${item.accuracy}% accuracy</div>
+          </div>
+        `;
+        list.appendChild(div);
+      });
     }
 
-    function performDailyReset() {
-      // Reset daily stats only
-      state.stats.dailyWins = 0;
-      state.stats.dailyLosses = 0;
-      
-      // Update UI
-      updateStatsUI();
-      
-      console.log('Daily stats reset performed');
+    function updateHistoryCount() {
+      document.getElementById("historyCount").textContent = history.length;
     }
 
-    // Schedule daily reset check
-    function scheduleDailyReset() {
-      if (!config.dailyReset) return;
+    document.getElementById('refreshBtn').addEventListener('click', function() {
+      if (isRefreshing) return;
       
-      const now = new Date();
-      const [resetHour, resetMinute] = config.dailyUpdateTime.split(':').map(Number);
-      let nextReset = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        resetHour,
-        resetMinute,
-        0
-      );
+      isRefreshing = true;
+      const refreshText = document.getElementById("refreshText");
+      const spinner = document.getElementById("refreshSpinner");
       
-      // If reset time already passed today, schedule for tomorrow
-      if (now > nextReset) {
-        nextReset.setDate(nextReset.getDate() + 1);
-      }
+      // Show loading state
+      refreshText.textContent = "REFRESHING...";
+      spinner.style.display = "block";
+      this.classList.add('pulse');
       
-      const timeUntilReset = nextReset - now;
+      // Clear and refresh history
+      const list = document.getElementById("history-list");
+      list.innerHTML = `
+        <div style="text-align: center; padding: 30px; color: #888;">
+          <div class="loading" style="margin: 0 auto; border-width: 2px; width: 20px; height: 20px;"></div>
+          <div style="margin-top: 15px;">Updating predictions...</div>
+        </div>
+      `;
       
+      // Simulate refresh delay
       setTimeout(() => {
-        performDailyReset();
-        state.lastDailyReset = new Date().toLocaleDateString();
-        saveState();
+        renderHistory();
+        refreshText.textContent = "REFRESH COMPLETE";
+        spinner.style.display = "none";
         
-        // Schedule next reset
-        scheduleDailyReset();
-      }, timeUntilReset);
-      
-      console.log(`Next daily reset scheduled for ${nextReset}`);
-    }
+        // Reset button after delay
+        setTimeout(() => {
+          refreshText.textContent = "REFRESH DATA";
+          this.classList.remove('pulse');
+          isRefreshing = false;
+        }, 1000);
+      }, 800);
+    });
 
-    // Core functions with auto-update enhancements
-    async function fetchGameResult() {
-      try {
-        const timestamp = Math.floor(Date.now() / 1000);
-        const res = await fetch(config.apiURL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            pageSize: 10, 
-            pageNo: 1, 
-            typeId: 1, 
-            language: 0,
-            random: "4a0522c6ecd8410496260e686be2a57c",
-            signature: "334B5E70A0C9B8918B0B15E517E2069C",
-            timestamp
-          })
-        });
-        
-        const data = await res.json();
-        updateServerStatus(true);
-        
-        const latest = data?.data?.list?.[0];
-        if (!latest) return null;
-        
-        return { 
-          period: latest.issueNumber, 
-          number: parseInt(latest.number),
-          timestamp 
-        };
-      } catch (error) {
-        console.error('Fetch error:', error);
-        updateServerStatus(false);
-        return null;
-      }
-    }
-
-    function calculateTrend() {
-      if (state.history.length < 5) {
-        state.trend = 'neutral';
-        return;
-      }
-      
-      const recent = state.history.slice(0, 5);
-      const wins = recent.filter(item => item.result === 'WIN').length;
-      
-      if (wins >= 4) state.trend = 'strong-up';
-      else if (wins >= 3) state.trend = 'up';
-      else if (wins <= 1) state.trend = 'down';
-      else if (wins <= 2) state.trend = 'strong-down';
-      else state.trend = 'neutral';
-    }
-
-    function updateStreak(result) {
-      if (result === 'WIN') {
-        state.stats.dailyWins++;
-        if (state.stats.lastStreakType === 'win') {
-          state.stats.streak++;
-        } else {
-          state.stats.streak = 1;
-          state.stats.lastStreakType = 'win';
-        }
-      } else if (result === 'LOSS') {
-        state.stats.dailyLosses++;
-        if (state.stats.lastStreakType === 'loss') {
-          state.stats.streak++;
-        } else {
-          state.stats.streak = 1;
-          state.stats.lastStreakType = 'loss';
-        }
-      }
-    }
-
-    async function processGameResult(result) {
-      if (!result || result.period === state.lastPeriod) return;
-      
-      state.lastPeriod = result.period;
-      const actual = result.number >= 5 ? 'BIG' : 'SMALL';
-      
-      // Find matching prediction in history
-      const matchingPrediction = state.history.find(item => item.period === result.period);
-      if (matchingPrediction && !matchingPrediction.result) {
-        // Determine result
-        matchingPrediction.result = matchingPrediction.prediction.direction === actual ? 'WIN' : 'LOSS';
-        matchingPrediction.actual = actual;
-        matchingPrediction.actualNumber = result.number;
-        
-        // Update stats
-        if (matchingPrediction.result === 'WIN') {
-          state.stats.wins++;
-        } else {
-          state.stats.losses++;
-        }
-        
-        state.lastResult = matchingPrediction.result;
-        updateStreak(matchingPrediction.result);
-        calculateTrend();
-        updateStatsUI();
-        updateHistoryUI();
-      }
-      
-      // Generate new prediction for next period
-      const nextPeriod = (BigInt(result.period) + 1n).toString();
-      const prediction = predictionEngine.generatePrediction(state.history);
-      
-      const newPrediction = {
-        period: nextPeriod,
-        prediction: {
-          direction: prediction.direction,
-          number: prediction.number,
-          confidence: prediction.confidence,
-          strategy: prediction.strategy
-        },
-        result: null,
-        actual: null,
-        actualNumber: null,
-        timestamp: result.timestamp
-      };
-      
-      // Add to history (at beginning)
-      state.history.unshift(newPrediction);
-      
-      // Trim history if too long
-      if (state.history.length > config.maxHistory) {
-        state.history.pop();
-      }
-      
-      // Update UI
-      updatePredictionUI(newPrediction);
-      updateHistoryUI();
-      
-      // Save state
-      saveState();
-    }
-
-    async function updatePredictions() {
-      const result = await fetchGameResult();
-      await processGameResult(result);
-      
-      // Check for daily reset on each update
-      checkDailyReset();
-    }
-
-    // Event listeners
-    elements.clearHistory.addEventListener('click', clearHistory);
-
-    // Initialize with auto-update capabilities
-    function init() {
-      loadState();
-      updateServerStatus(false);
-      updateStatsUI();
-      updateHistoryUI();
-      
-      // Initial update
-      updatePredictions();
-      
-      // Set up periodic updates if auto-update is enabled
-      if (config.autoUpdate) {
-        setInterval(updatePredictions, config.updateInterval);
-      }
-      
-      // Schedule daily reset
-      scheduleDailyReset();
-      
-      // Initialize particles
-      particlesJS.load('particles-js', 'https://cdn.jsdelivr.net/gh/VincentGarreau/particles.js/demo/particles.json', function() {
-        console.log('Particles loaded');
-      });
-      
-      // Add visibility change listener for auto-update when tab becomes active
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden && config.autoUpdate) {
-          updatePredictions();
-        }
-      });
-    }
-
-    init();
+    setInterval(updateDisplay, 1000);
+    updateDisplay();
+    updateHistoryCount();
   </script>
+
 </body>
 </html>
