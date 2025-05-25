@@ -167,7 +167,6 @@
         <div id="currentPredictionDisplay" class="text-4xl font-bold text-red-500 mb-2 prediction-display">-</div>
         <div class="flex justify-between items-center mb-2">
           <span class="text-gray-400 text-sm"></span>
-          <span id="currentWinRateDisplay" class="text-red-300 font-bold">0%</span>
         </div>
       </div>
     </div>
@@ -424,10 +423,8 @@
         lastFetchedPeriod = result.issueNumber;
       }
 
-      const currentConfidence = historyData[0]?.confidence || config.baseWinChance;
       document.getElementById("currentPeriodDisplay").innerText = `${currentPeriod}`;
-      document.getElementById("currentPredictionDisplay").innerText = currentPeriodPrediction;
-      document.getElementById("currentWinRateDisplay").innerText = `${Math.round(currentConfidence)}%`;
+      document.getElementById("currentPredictionDisplay").innerText = currentPeriodPrediction || "-";
 
       if (historyData.length === 0 || historyData[0].period !== currentPeriod.slice(-4)) {
         historyData.unshift({
@@ -436,7 +433,7 @@
           result: "-",
           resultStatus: "Pending",
           calculation: "-",
-          confidence: currentConfidence
+          confidence: config.baseWinChance
         });
       }
 
@@ -502,7 +499,6 @@
       
       document.getElementById("currentPeriodDisplay").innerText = "-";
       document.getElementById("currentPredictionDisplay").innerText = "-";
-      document.getElementById("currentWinRateDisplay").innerText = "0%";
     }
     
     updateHistory();
