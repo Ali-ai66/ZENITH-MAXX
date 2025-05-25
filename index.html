@@ -174,20 +174,12 @@
     let lastResult = null;  
     let lastPrediction = null;  
     let lastStatus = null;  
-    let lastOppositeNumber = null;  
     let globalPrediction = null;  
     let streak = 0;  
     let lastPeriodWithResult = null;  
   
     function getRandomWinChance() {  
       return Math.floor(Math.random() * (100 - 35 + 1)) + 35; // Random number between 35 and 100  
-    }  
-  
-    function getOppositeNumber(prediction) {  
-      const small = [0, 1, 2, 3, 4];  
-      const big = [5, 6, 7, 8, 9];  
-      let arr = prediction === "BIG" ? small : big;  
-      return arr[Math.floor(Math.random() * arr.length)];  
     }  
   
     function ultraAIPredict(history) {  
@@ -208,11 +200,11 @@
       return { prediction: bigCount > smallCount ? "BIG" : "SMALL" };  
     }  
   
-    function updateLastStatus(actualNumber) {  
-      const match = actualNumber == lastOppositeNumber || (actualNumber >= 5 ? 'BIG' : 'SMALL') === lastPrediction;  
-      lastResult = actualNumber >= 5 ? 'BIG' : 'SMALL';  
-      lastStatus = match ? 'WIN' : 'LOSS';  
-      streak = match ? (lastStatus === 'WIN' ? streak + 1 : 0) : 0;  
+    function updateLastStatus(actualNumber, prediction) {  
+      const resultType = actualNumber >= 5 ? "BIG" : "SMALL";  
+      lastResult = resultType;  
+      lastStatus = prediction === resultType ? 'WIN' : 'LOSS';  
+      streak = lastStatus === 'WIN' ? streak + 1 : 0;  
       return lastStatus;  
     }  
   
@@ -243,9 +235,10 @@
       let result = await fetchGameResult();  
       if (!result || result.issueNumber === lastFetchedPeriod) return;  
   
+      // Process the result for the previous prediction if it exists
       if (historyData.length > 0 && historyData[0].resultStatus === "Pending") {  
         const actualNumber = Number(result.number);  
-        const status = updateLastStatus(actualNumber);  
+        const status = updateLastStatus(actualNumber, historyData[0].prediction);  
         const resultType = actualNumber >= 5 ? "BIG" : "SMALL";  
         
         historyData[0].result = actualNumber;  
@@ -253,10 +246,11 @@
         historyData[0].calculation = `Number ${actualNumber} (${resultType})`;  
       }  
   
-      const aiDecision = ultraAIPredict(historyData);  
-      lastPrediction = aiDecision.prediction;  
-      lastOppositeNumber = getOppositeNumber(lastPrediction);  
-      globalPrediction = lastPrediction;  
+      // Only make a new prediction if we don't have one for the current period
+      if (globalPrediction === null) {
+        const aiDecision = ultraAIPredict(historyData);  
+        globalPrediction = aiDecision.prediction;  
+      }
   
       let nextPeriodFull = (BigInt(result.issueNumber) + 1n).toString();  
       let nextPeriod = nextPeriodFull.slice(-4);  
@@ -267,14 +261,16 @@
       document.getElementById("currentPredictionDisplay").innerText = globalPrediction;  
       document.getElementById("currentWinRateDisplay").innerText = `${winChance}%`;  
   
-      historyData.unshift({  
-        period: nextPeriod,  
-        prediction: globalPrediction,  
-        oppositeNumber: lastOppositeNumber,  
-        result: "-",  
-        resultStatus: "Pending",  
-        calculation: "-"  
-      });  
+      // Only add new history item if we're moving to a new period
+      if (historyData.length === 0 || historyData[0].period !== nextPeriod) {
+        historyData.unshift({  
+          period: nextPeriod,  
+          prediction: globalPrediction,  
+          result: "-",  
+          resultStatus: "Pending",  
+          calculation: "-"  
+        });  
+      }
   
       updateHistory();  
       updateStats();  
@@ -296,7 +292,6 @@
               <div class="space-y-1">  
                 <div class="text-gray-400"><i class="fa fa-calendar mr-2 text-red-500"></i><strong class="text-red-300">P-${item.period}</strong></div>  
                 <div class="text-gray-400"><i class="fa fa-chart-bar mr-2 text-red-500"></i>Prediction: <span class="text-red-300">${item.prediction}</span></div>  
-                <div class="text-gray-400"><i class="fa fa-retweet mr-2 text-red-500"></i>Opposite Number: <span class="text-red-300">${item.oppositeNumber}</span></div>  
                 <div class="text-gray-400"><i class="fa fa-dice mr-2 text-red-500"></i>Result: <span class="text-red-300">${item.result !== "-" ? item.result : "Waiting..."}</span></div>  
                 <div class="text-gray-400"><i class="fa fa-trophy mr-2 text-red-500"></i>Status: <span class="${item.resultStatus === "WIN" ? "text-green-600" : item.resultStatus === "LOSS" ? "text-red-600" : "text-yellow-500"}">${item.resultStatus}</span></div>  
               </div>  
@@ -329,6 +324,7 @@
     function clearHistory() {  
       historyData = [];  
       streak = 0;  
+      globalPrediction = null;
       updateHistory();  
       updateStats();  
     }  
